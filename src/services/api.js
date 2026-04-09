@@ -54,6 +54,30 @@ export async function getAdminPlacements() {
   return data
 }
 
+export async function registerUser(payload) {
+  const { data } = await api.post('/api/auth/register', payload)
+  return data
+}
+
+export async function updateUserProfile(userId, payload) {
+  const { data } = await api.put(`/api/users/${userId}`, payload)
+  return data
+}
+
+export async function getStudentApplications(studentId) {
+  const { data } = await api.get(`/api/student/applications/${studentId}`)
+  return data
+}
+
+export async function applyForJob(payload) {
+  const { data } = await api.post('/api/applications/apply', payload)
+  return data
+}
+
+export async function deleteApplicationById(applicationId) {
+  await api.delete(`/api/applications/${applicationId}`)
+}
+
 export function normalizeRole(role) {
   if (role == null) return ''
   let r = String(role).trim().toUpperCase()

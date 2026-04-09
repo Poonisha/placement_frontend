@@ -1,11 +1,12 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Users, Briefcase, Database } from 'lucide-react'
+import { LayoutDashboard, Users, Briefcase, Database, UserCircle } from 'lucide-react'
 
 const adminItems = [
   { to: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard, end: true },
   { to: '/admin/users', label: 'Users', icon: Users },
   { to: '/admin/jobs', label: 'Jobs', icon: Briefcase },
   { to: '/admin/placements', label: 'Placement Data', icon: Database },
+  { to: '/profile', label: 'Profile', icon: UserCircle },
 ]
 
 function linkClass({ isActive }) {

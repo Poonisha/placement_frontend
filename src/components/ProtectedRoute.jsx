@@ -19,7 +19,7 @@ export default function ProtectedRoute({ children, allowedRoles }) {
   const allowed = allowedRoles.map(normalizeRole)
 
   if (!effectiveUser) {
-    return <Navigate to="/" state={{ from: location }} replace />
+    return <Navigate to="/login" state={{ from: location }} replace />
   }
 
   if (allowed.length && !allowed.includes(role)) {

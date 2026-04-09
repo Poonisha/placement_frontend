@@ -1,11 +1,12 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, ClipboardList, LineChart, Building2 } from 'lucide-react'
+import { LayoutDashboard, ClipboardList, LineChart, Building2, UserCircle } from 'lucide-react'
 
 const poItems = [
   { to: '/po/dashboard', label: 'Dashboard', icon: LayoutDashboard, end: true },
   { to: '/po/records', label: 'Placement Records', icon: ClipboardList },
   { to: '/po/reports', label: 'Reports', icon: LineChart },
   { to: '/po/companies', label: 'Companies', icon: Building2 },
+  { to: '/profile', label: 'Profile', icon: UserCircle },
 ]
 
 function linkClass({ isActive }) {

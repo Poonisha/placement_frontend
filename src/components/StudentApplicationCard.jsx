@@ -27,12 +27,13 @@ function formatAppliedAt(value) {
   return String(value)
 }
 
-export default function StudentApplicationCard({ row }) {
+export default function StudentApplicationCard({ row, onDelete }) {
   const job = row.job
   const title = job?.title ?? row.jobTitle ?? row.title ?? '—'
   const company = job?.companyName ?? row.companyName ?? row.company ?? '—'
   const status = row.status ?? row.applicationStatus ?? '—'
   const applied = formatAppliedAt(row.appliedAt ?? row.applied_at)
+  const appId = row.id
 
   return (
     <article className="app-card flex flex-col gap-3 rounded-xl p-5 sm:flex-row sm:items-center sm:justify-between">
@@ -43,12 +44,21 @@ export default function StudentApplicationCard({ row }) {
           <p className="mt-2 text-xs text-[var(--color-app-muted)]">Applied {applied}</p>
         ) : null}
       </div>
-      <div className="flex shrink-0 items-center sm:pl-4">
+      <div className="flex shrink-0 flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:pl-4">
         <span
           className={`inline-flex rounded-lg border px-3 py-1.5 text-xs font-semibold uppercase tracking-wide ${getApplicationStatusStyles(status)}`}
         >
           {String(status)}
         </span>
+        {typeof onDelete === 'function' && appId != null ? (
+          <button
+            type="button"
+            onClick={() => onDelete(appId)}
+            className="btn-danger justify-center"
+          >
+            Delete
+          </button>
+        ) : null}
       </div>
     </article>
   )

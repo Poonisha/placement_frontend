@@ -1,6 +1,9 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import ProtectedRoute from '../components/ProtectedRoute.jsx'
 import LandingPage from '../pages/LandingPage.jsx'
+import Login from '../pages/Login.jsx'
+import Register from '../pages/Register.jsx'
+import Profile from '../pages/Profile.jsx'
 import StudentLogin from '../pages/StudentLogin.jsx'
 import EmployerLogin from '../pages/EmployerLogin.jsx'
 import AdminLogin from '../pages/AdminLogin.jsx'
@@ -9,6 +12,7 @@ import StudentOverviewPage from '../pages/StudentOverviewPage.jsx'
 import StudentJobsPage from '../pages/StudentJobsPage.jsx'
 import StudentApplicationsPage from '../pages/StudentApplicationsPage.jsx'
 import EmployerDashboard from '../pages/EmployerDashboard.jsx'
+import EmployerJobs from '../pages/EmployerJobs.jsx'
 import EmployerApplicationsPage from '../pages/EmployerApplicationsPage.jsx'
 import AdminDashboard from '../pages/admin/AdminDashboard.jsx'
 import AdminUsers from '../pages/admin/Users.jsx'
@@ -25,7 +29,11 @@ export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/login" element={<Navigate to="/" replace />} />
+      <Route path="/register" element={<Register />} />
+      <Route
+        path="/login"
+        element={<Login title="Sign in" subtitle="Use your email and password to access your account." />}
+      />
       <Route path="/student-login" element={<StudentLogin />} />
       <Route path="/employer-login" element={<EmployerLogin />} />
       <Route path="/admin-login" element={<AdminLogin />} />
@@ -54,6 +62,14 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute allowedRoles={['STUDENT', 'EMPLOYER', 'ADMIN', 'PLACEMENT_OFFICER', 'OFFICER']}>
+            <Profile />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/student" element={<Navigate to="/dashboard" replace />} />
       <Route path="/student/dashboard" element={<Navigate to="/dashboard" replace />} />
       <Route path="/student/jobs" element={<Navigate to="/jobs" replace />} />
@@ -70,7 +86,7 @@ export default function AppRoutes() {
         path="/employer/jobs"
         element={
           <ProtectedRoute allowedRoles={['EMPLOYER']}>
-            <EmployerDashboard />
+            <EmployerJobs />
           </ProtectedRoute>
         }
       />

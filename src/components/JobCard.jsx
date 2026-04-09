@@ -45,7 +45,7 @@ export default function JobCard({
           }`}
         >
           <Send className="h-4 w-4" strokeWidth={1.5} aria-hidden />
-          {alreadyApplied ? 'Applied' : applying ? 'Applying…' : 'Apply'}
+          {alreadyApplied ? 'Already Applied' : applying ? 'Applying…' : 'Apply'}
         </button>
       ) : null}
     </article>

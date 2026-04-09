@@ -12,7 +12,7 @@ export default function DashboardLayout({ user, onLogout, sidebarItems, title, c
     if (!window.confirm('Are you sure you want to logout?')) return
     localStorage.removeItem(USER_STORAGE_KEY)
     onLogout?.()
-    navigate('/', { replace: true })
+    navigate('/login', { replace: true })
   }
 
   return (
@@ -30,7 +30,7 @@ export default function DashboardLayout({ user, onLogout, sidebarItems, title, c
               <SidebarMenuButton onClick={() => setMobileOpen(true)} />
             </div>
             <div className="min-w-0 flex-1">
-              <TopBar title={title} onLogout={handleLogout} />
+              <TopBar title={title} onLogout={handleLogout} showProfile />
             </div>
           </div>
         </div>

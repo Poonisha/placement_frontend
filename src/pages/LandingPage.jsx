@@ -42,6 +42,14 @@ export default function LandingPage() {
             Placement management for students, employers, administrators, and officers — minimal,
             secure, and ready to pair with your Spring Boot API.
           </p>
+          <p className="mt-4">
+            <Link
+              to="/register"
+              className="text-sm font-medium text-[var(--color-app-text)] underline decoration-[var(--color-app-border)] underline-offset-4 hover:decoration-[var(--color-app-text)]"
+            >
+              Create an account
+            </Link>
+          </p>
         </div>
         <h2 className="mt-14 text-xs font-semibold uppercase tracking-wider text-[var(--color-app-muted)]">
           Sign in by role

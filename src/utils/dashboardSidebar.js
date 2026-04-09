@@ -3,6 +3,7 @@ import {
   Briefcase,
   ClipboardList,
   Users,
+  UserCircle,
 } from 'lucide-react'
 import { normalizeRole } from '../services/api.js'
 
@@ -17,6 +18,7 @@ export function getDashboardSidebarItems(role) {
       { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, end: true },
       { to: '/jobs', label: 'Jobs', icon: Briefcase },
       { to: '/applications', label: 'Applications', icon: ClipboardList },
+      { to: '/profile', label: 'Profile', icon: UserCircle },
     ]
   }
   if (r === 'EMPLOYER') {
@@ -24,18 +26,21 @@ export function getDashboardSidebarItems(role) {
       { to: '/employer/dashboard', label: 'Dashboard', icon: LayoutDashboard, end: true },
       { to: '/employer/jobs', label: 'Jobs', icon: Briefcase },
       { to: '/employer/applications', label: 'Applications', icon: ClipboardList },
+      { to: '/profile', label: 'Profile', icon: UserCircle },
     ]
   }
   if (r === 'ADMIN') {
     return [
-      { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, end: true },
-      { to: '/admin', label: 'Users', icon: Users },
+      { to: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard, end: true },
+      { to: '/admin/users', label: 'Users', icon: Users },
+      { to: '/profile', label: 'Profile', icon: UserCircle },
     ]
   }
   if (r === 'OFFICER') {
     return [
       { to: '/officer', label: 'Dashboard', icon: LayoutDashboard, end: true },
       { to: '/officer', label: 'Applications', icon: ClipboardList },
+      { to: '/profile', label: 'Profile', icon: UserCircle },
     ]
   }
   return [{ to: '/', label: 'Dashboard', icon: LayoutDashboard }]
