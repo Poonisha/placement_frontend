@@ -1,11 +1,15 @@
 import axios from 'axios'
 
-const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'
+// ✅ ONLY use env variable (NO localhost fallback)
+const baseURL = import.meta.env.VITE_API_BASE_URL
 
-/** localStorage key for the logged-in user (matches backend User JSON). */
+// (optional debug – you can remove later)
+console.log("API BASE:", baseURL)
+
+/** localStorage key for the logged-in user */
 export const USER_STORAGE_KEY = 'user'
 
-/** Post-login home route per role. */
+/** Post-login home route per role */
 export const ROLE_HOME = {
   STUDENT: '/dashboard',
   EMPLOYER: '/employer/dashboard',
@@ -14,10 +18,13 @@ export const ROLE_HOME = {
   PLACEMENT_OFFICER: '/po/dashboard',
 }
 
+// ✅ Axios instance
 export const api = axios.create({
   baseURL,
   headers: { 'Content-Type': 'application/json' },
 })
+
+// ================= ADMIN =================
 
 export async function getAdminStats() {
   const { data } = await api.get('/api/admin/stats')
@@ -54,15 +61,21 @@ export async function getAdminPlacements() {
   return data
 }
 
+// ================= AUTH =================
+
 export async function registerUser(payload) {
   const { data } = await api.post('/api/auth/register', payload)
   return data
 }
 
+// ================= USER =================
+
 export async function updateUserProfile(userId, payload) {
   const { data } = await api.put(`/api/users/${userId}`, payload)
   return data
 }
+
+// ================= STUDENT =================
 
 export async function getStudentApplications(studentId) {
   const { data } = await api.get(`/api/student/applications/${studentId}`)
@@ -77,6 +90,8 @@ export async function applyForJob(payload) {
 export async function deleteApplicationById(applicationId) {
   await api.delete(`/api/applications/${applicationId}`)
 }
+
+// ================= UTILS =================
 
 export function normalizeRole(role) {
   if (role == null) return ''
