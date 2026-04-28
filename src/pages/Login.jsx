@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
-import { Loader2 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api, USER_STORAGE_KEY } from '../services/api.js'
 
@@ -30,7 +29,7 @@ export default function Login({ title, subtitle }) {
 
       console.log("FULL RESPONSE:", data)
 
-      // ✅ HANDLE BACKEND RESPONSE PROPERLY
+      // ✅ HANDLE BACKEND RESPONSE
       if (!data.success) {
         const msg = data.message || "Login failed"
         setError(msg)
@@ -41,7 +40,7 @@ export default function Login({ title, subtitle }) {
       const user = data.user
 
       if (!user) {
-        setError("No user returned from server")
+        setError("Invalid server response")
         return
       }
 
@@ -51,23 +50,32 @@ export default function Login({ title, subtitle }) {
 
       toast.success("Login successful")
 
-      // ✅ ROLE BASED REDIRECT
+      // ✅ FIXED REDIRECTS
       if (user.role === 'ADMIN') {
         navigate('/admin/dashboard')
       } else if (user.role === 'STUDENT') {
-        navigate('/student/dashboard')
+        navigate('/dashboard')   // 🔥 FIXED HERE
       } else if (user.role === 'EMPLOYER') {
         navigate('/employer/dashboard')
       } else if (user.role === 'PLACEMENT_OFFICER') {
         navigate('/po/dashboard')
+      } else if (user.role === 'OFFICER') {
+        navigate('/officer')
       } else {
         navigate('/')
       }
 
     } catch (err) {
-      console.error("LOGIN ERROR:", err)
-      setError("Server error")
-      toast.error("Server error")
+      console.error("FULL ERROR:", err)
+
+      const msg =
+        err.response?.data?.message ||
+        err.response?.data ||
+        err.message ||
+        "Login failed"
+
+      setError(msg)
+      toast.error(msg)
     } finally {
       setLoading(false)
     }
