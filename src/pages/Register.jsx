@@ -4,7 +4,7 @@ import axios from 'axios'
 import { Loader2 } from 'lucide-react'
 import Navbar from '../components/Navbar.jsx'
 
-const REGISTER_URL = `${import.meta.env.VITE_API_BASE_URL}/api/auth/register` ✅
+const REGISTER_URL = `${import.meta.env.VITE_API_BASE_URL}/api/auth/register` 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export default function Register() {
