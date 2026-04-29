@@ -24,13 +24,15 @@ export default function Login({ title, subtitle }) {
     setError('')
     setLoading(true)
 
-    const email = form.email
+    const email = form.email.trim()   // 🔥 IMPORTANT FIX
     const password = form.password
-    const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'
+
+    const baseURL = import.meta.env.VITE_API_BASE_URL
     const loginUrl = `${baseURL}/api/auth/login`
 
     try {
-      console.log({ email, password })
+      console.log("Sending:", { email, password })
+
       const response = await fetch(loginUrl, {
         method: 'POST',
         headers: {
@@ -38,8 +40,8 @@ export default function Login({ title, subtitle }) {
         },
         body: JSON.stringify({ email, password }),
       })
-      const data = await response.json()
 
+      const data = await response.json()
       console.log('LOGIN RESPONSE:', data)
 
       if (!response.ok || !data.success) {
@@ -51,39 +53,40 @@ export default function Login({ title, subtitle }) {
 
       const user = data.user
 
-      if (!user) {
+      if (!user || !user.role) {
         setError('Invalid server response')
         return
       }
 
+      // ✅ SAVE USER
       localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user))
+      localStorage.setItem("token", data.token)
       setUser(user)
 
       toast.success('Login successful')
 
-      if (user.role === 'ADMIN') {
-        navigate('/admin/dashboard')
-      } else if (user.role === 'STUDENT') {
-        navigate('/dashboard')
-      } else if (user.role === 'EMPLOYER') {
-        navigate('/employer/dashboard')
-      } else if (user.role === 'PLACEMENT_OFFICER') {
-        navigate('/po/dashboard')
-      } else if (user.role === 'OFFICER') {
-        navigate('/officer')
-      } else {
-        navigate('/')
+      // 🔥 ROLE BASED ROUTING (FINAL)
+      switch (user.role) {
+        case 'ADMIN':
+          navigate('/admin/dashboard')
+          break
+        case 'STUDENT':
+          navigate('/dashboard')
+          break
+        case 'EMPLOYER':
+          navigate('/employer/dashboard')
+          break
+        case 'PLACEMENT_OFFICER':
+          navigate('/po/dashboard')
+          break
+        default:
+          navigate('/')
       }
 
     } catch (err) {
       console.error('LOGIN ERROR:', err)
 
-      const msg =
-        err.response?.data?.message ||
-        err.response?.data ||
-        err.message ||
-        'Login failed'
-
+      const msg = err.message || 'Login failed'
       setError(msg)
       toast.error(msg)
     } finally {
