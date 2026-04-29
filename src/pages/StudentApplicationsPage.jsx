@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
-import { api } from '../services/api.js'
+import api from '../services/api.js'
 import DashboardLayout from '../components/DashboardLayout.jsx'
 import LoadingSpinner from '../components/LoadingSpinner.jsx'
 import EmptyState from '../components/EmptyState.jsx'

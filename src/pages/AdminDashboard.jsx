@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useAuth } from '../context/AuthContext.jsx'
-import { api } from '../services/api.js'
+import api from '../services/api.js'
 import DashboardLayout from '../components/DashboardLayout.jsx'
 import UserTable from '../components/UserTable.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'

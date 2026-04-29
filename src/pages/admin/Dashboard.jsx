@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Users, Building2, Briefcase, Database } from 'lucide-react'
 import toast from 'react-hot-toast'
-import { api } from '../../services/api.js'
+import api from '../../services/api.js'
 import AdminCard from '../../components/admin/Card.jsx'
 import LoadingSpinner from '../../components/LoadingSpinner.jsx'
 import EmptyState from '../../components/EmptyState.jsx'

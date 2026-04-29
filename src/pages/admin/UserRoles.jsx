@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { Search } from 'lucide-react'
-import { api } from '../../services/api.js'
+import api from '../../services/api.js'
 import LoadingSpinner from '../../components/LoadingSpinner.jsx'
 import EmptyState from '../../components/EmptyState.jsx'
 import { unwrapList } from '../../utils/apiHelpers.js'

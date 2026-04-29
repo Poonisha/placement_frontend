@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useAuth } from '../context/AuthContext.jsx'
-import { api, USER_STORAGE_KEY } from '../services/api.js'
+import api, { USER_STORAGE_KEY } from '../services/api.js'
 import DashboardLayout from '../components/DashboardLayout.jsx'
 import JobCard from '../components/JobCard.jsx'
 import LoadingSpinner from '../components/LoadingSpinner.jsx'

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { deleteAdminJob, getAdminJobs } from '../../services/api.js'
+import api from '../../services/api.js'
 
 function normalizeList(data) {
   if (Array.isArray(data)) return data
@@ -17,7 +17,7 @@ export default function AdminJobs() {
   async function loadJobs() {
     setLoading(true)
     try {
-      const data = await getAdminJobs()
+      const { data } = await api.get('/api/admin/jobs')
       setJobs(normalizeList(data))
     } catch (error) {
       const message = error.response?.data?.message ?? error.message ?? 'Failed to load jobs.'
@@ -36,7 +36,7 @@ export default function AdminJobs() {
     if (!window.confirm('Are you sure you want to delete this job?')) return
     setDeletingId(jobId)
     try {
-      await deleteAdminJob(jobId)
+      await api.delete(`/api/admin/jobs/${jobId}`)
       toast.success('Job deleted successfully.')
       await loadJobs()
     } catch (error) {

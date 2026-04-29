@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useAuth } from '../context/AuthContext.jsx'
-import { applyForJob, api, getStudentApplications } from '../services/api.js'
+import api, { applyForJob, getApplicationsByStudent } from '../services/api.js'
 import { unwrapList } from '../utils/apiHelpers.js'
 import { filterJobsBySearch } from '../utils/searchFilters.js'
 import {
@@ -67,7 +67,7 @@ export function useStudentWorkspace(options = {}) {
     }
     setApplicationsLoading(true)
     try {
-      const data = await getStudentApplications(userId)
+      const data = await getApplicationsByStudent(userId)
       setApplications(unwrapList(data))
     } catch (err) {
       const msg =

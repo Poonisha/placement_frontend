@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { getAdminPlacements } from '../../services/api.js'
+import api from '../../services/api.js'
 
 function normalizeList(data) {
   if (Array.isArray(data)) return data
@@ -17,7 +17,7 @@ export default function PlacementData() {
     async function loadPlacements() {
       setLoading(true)
       try {
-        const data = await getAdminPlacements()
+        const { data } = await api.get('/api/admin/placements')
         setPlacements(normalizeList(data))
       } catch (err) {
         const message = err.response?.data?.message ?? err.message ?? 'Failed to load placements.'

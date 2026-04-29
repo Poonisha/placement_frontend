@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext.jsx'
 import DashboardLayout from '../components/DashboardLayout.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import LoadingSpinner from '../components/LoadingSpinner.jsx'
-import { api, USER_STORAGE_KEY } from '../services/api.js'
+import api, { USER_STORAGE_KEY } from '../services/api.js'
 import { getDashboardSidebarItems } from '../utils/dashboardSidebar.js'
 
 function getStatusClass(status) {

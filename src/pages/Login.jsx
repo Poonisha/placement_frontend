@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useAuth } from '../context/AuthContext.jsx'
-import { api, USER_STORAGE_KEY } from '../services/api.js'
+import api, { USER_STORAGE_KEY } from '../services/api.js'
 
 const LOGIN_BG_IMAGE =
   'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80'

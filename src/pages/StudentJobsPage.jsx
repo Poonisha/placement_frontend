@@ -7,7 +7,7 @@ import EmptyState from '../components/EmptyState.jsx'
 import SearchBar from '../components/SearchBar.jsx'
 import StudentStatsCards from '../components/StudentStatsCards.jsx'
 import { getDashboardSidebarItems } from '../utils/dashboardSidebar.js'
-import { api } from '../services/api.js'
+import api from '../services/api.js'
 import { filterJobsBySearch } from '../utils/searchFilters.js'
 
 export default function StudentJobsPage() {

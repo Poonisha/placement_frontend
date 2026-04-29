@@ -1,103 +1,73 @@
-import axios from 'axios'
+import axios from "axios";
 
+export const USER_STORAGE_KEY = "user";
 
-const baseURL = import.meta.env.VITE_API_BASE_URL
+export const normalizeRole = (role) => {
+if (!role) return "";
+return role.toUpperCase();
+};
 
-const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://backend:5000/api'
-
-// (optional debug – you can remove later)
-console.log("API BASE:", baseURL)
-
-/** localStorage key for the logged-in user */
-export const USER_STORAGE_KEY = 'user'
-
-/** Post-login home route per role */
 export const ROLE_HOME = {
-  STUDENT: '/dashboard',
-  EMPLOYER: '/employer/dashboard',
-  ADMIN: '/admin/dashboard',
-  OFFICER: '/officer',
-  PLACEMENT_OFFICER: '/po/dashboard',
-}
+STUDENT: "/student",
+EMPLOYER: "/employer",
+ADMIN: "/admin",
+OFFICER: "/officer",
+};
 
-// ✅ Axios instance
-export const api = axios.create({
-  baseURL,
-  headers: { 'Content-Type': 'application/json' },
-})
+const baseURL =
+import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
 
-// ================= ADMIN =================
+const api = axios.create({
+baseURL,
+});
 
-export async function getAdminStats() {
-  const { data } = await api.get('/api/admin/stats')
-  return data
-}
+// AUTH
+export const loginUser = async (data) => {
+const res = await api.post("/api/auth/login", data);
+return res.data;
+};
 
-export async function getAdminUsers() {
-  const { data } = await api.get('/api/admin/users')
-  return data
-}
+// USERS
+export const getUserById = async (id) => {
+const res = await api.get(`/api/users/${id}`);
+return res.data;
+};
 
-export async function createAdminUser(payload) {
-  const { data } = await api.post('/api/admin/users', payload)
-  return data
-}
+export const updateUserProfile = async (id, userData) => {
+const res = await api.put(`/api/users/${id}`, userData);
+return res.data;
+};
 
-export async function deleteAdminUser(userId) {
-  const { data } = await api.delete(`/api/admin/users/${userId}`)
-  return data
-}
+// JOBS
+export const getAllJobs = async () => {
+const res = await api.get("/api/jobs");
+return res.data;
+};
 
-export async function getAdminJobs() {
-  const { data } = await api.get('/api/admin/jobs')
-  return data
-}
+export const getJobsByEmployer = async (id) => {
+const res = await api.get(`/api/jobs/employer/${id}`);
+return res.data;
+};
 
-export async function deleteAdminJob(jobId) {
-  const { data } = await api.delete(`/api/admin/jobs/${jobId}`)
-  return data
-}
+// APPLICATIONS
+export const applyForJob = async (data) => {
+const res = await api.post("/api/applications/apply", data);
+return res.data;
+};
 
-export async function getAdminPlacements() {
-  const { data } = await api.get('/api/admin/placements')
-  return data
-}
+export const getApplicationsByStudent = async (id) => {
+const res = await api.get(`/api/applications/student/${id}`);
+return res.data;
+};
 
-// ================= AUTH =================
+export const getAllApplications = async () => {
+const res = await api.get("/api/applications");
+return res.data;
+};
 
-export async function registerUser(payload) {
-  const { data } = await api.post('/api/auth/register', payload)
-  return data
-}
+export const updateApplicationStatus = async (id, status) => {
+const res = await api.put(`/api/applications/${id}/status?status=${status}`);
+return res.data;
+};
 
-// ================= USER =================
-
-export async function updateUserProfile(userId, payload) {
-  const { data } = await api.put(`/api/users/${userId}`, payload)
-  return data
-}
-
-// ================= STUDENT =================
-
-export async function getStudentApplications(studentId) {
-  const { data } = await api.get(`/api/student/applications/${studentId}`)
-  return data
-}
-
-export async function applyForJob(payload) {
-  const { data } = await api.post('/api/applications/apply', payload)
-  return data
-}
-
-export async function deleteApplicationById(applicationId) {
-  await api.delete(`/api/applications/${applicationId}`)
-}
-
-// ================= UTILS =================
-
-export function normalizeRole(role) {
-  if (role == null) return ''
-  let r = String(role).trim().toUpperCase()
-  if (r.startsWith('ROLE_')) r = r.slice(5)
-  return r
-}
+export default api;

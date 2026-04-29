@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import Card from '../../components/Card.jsx'
-import { getAdminStats } from '../../services/api.js'
+import api from '../../services/api.js'
 
 function getStatValue(stats, keys) {
   for (const key of keys) {
@@ -18,7 +18,7 @@ export default function AdminDashboard() {
     async function loadStats() {
       setLoading(true)
       try {
-        const data = await getAdminStats()
+        const { data } = await api.get('/api/admin/stats')
         setStats(data ?? {})
       } catch (error) {
         const message = error.response?.data?.message ?? error.message ?? 'Failed to load admin stats.'

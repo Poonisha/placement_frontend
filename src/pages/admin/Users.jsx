@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { createAdminUser, deleteAdminUser, getAdminUsers } from '../../services/api.js'
+import api from '../../services/api.js'
 
 function normalizeList(data) {
   if (Array.isArray(data)) return data
@@ -24,7 +24,7 @@ export default function AdminUsers() {
   async function loadUsers() {
     setLoading(true)
     try {
-      const data = await getAdminUsers()
+      const { data } = await api.get('/api/admin/users')
       setUsers(normalizeList(data))
     } catch (error) {
       const message = error.response?.data?.message ?? error.message ?? 'Failed to load users.'
@@ -48,7 +48,7 @@ export default function AdminUsers() {
     event.preventDefault()
     setCreating(true)
     try {
-      await createAdminUser({
+      await api.post('/api/admin/users', {
         name: formData.name.trim(),
         email: formData.email.trim(),
         password: formData.password,
@@ -74,7 +74,7 @@ export default function AdminUsers() {
     if (!window.confirm('Are you sure you want to delete this user?')) return
     setDeletingId(userId)
     try {
-      await deleteAdminUser(userId)
+      await api.delete(`/api/admin/users/${userId}`)
       toast.success('User deleted successfully.')
       await loadUsers()
     } catch (error) {

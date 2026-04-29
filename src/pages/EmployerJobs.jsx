@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 import DashboardLayout from '../components/DashboardLayout.jsx'
-import { api, USER_STORAGE_KEY } from '../services/api.js'
+import api, { USER_STORAGE_KEY } from '../services/api.js'
 import { getDashboardSidebarItems } from '../utils/dashboardSidebar.js'
 
 const initialJob = {
