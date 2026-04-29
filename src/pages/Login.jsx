@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useAuth } from '../context/AuthContext.jsx'
-import api, { USER_STORAGE_KEY } from '../services/api.js'
+import { USER_STORAGE_KEY } from '../services/api.js'
 
 const LOGIN_BG_IMAGE =
   'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80'
@@ -24,14 +24,26 @@ export default function Login({ title, subtitle }) {
     setError('')
     setLoading(true)
 
+    const email = form.email
+    const password = form.password
+    const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'
+    const loginUrl = `${baseURL}/api/auth/login`
+
     try {
-      const { data } = await api.post('/api/auth/login', form)
+      console.log({ email, password })
+      const response = await fetch(loginUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      })
+      const data = await response.json()
 
-      console.log("FULL RESPONSE:", data)
+      console.log('LOGIN RESPONSE:', data)
 
-      // ✅ HANDLE BACKEND RESPONSE
-      if (!data.success) {
-        const msg = data.message || "Login failed"
+      if (!response.ok || !data.success) {
+        const msg = data?.message || 'Login failed'
         setError(msg)
         toast.error(msg)
         return
@@ -40,21 +52,19 @@ export default function Login({ title, subtitle }) {
       const user = data.user
 
       if (!user) {
-        setError("Invalid server response")
+        setError('Invalid server response')
         return
       }
 
-      // ✅ SAVE USER
       localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user))
       setUser(user)
 
-      toast.success("Login successful")
+      toast.success('Login successful')
 
-      // ✅ FIXED REDIRECTS
       if (user.role === 'ADMIN') {
         navigate('/admin/dashboard')
       } else if (user.role === 'STUDENT') {
-        navigate('/dashboard')   // 🔥 FIXED HERE
+        navigate('/dashboard')
       } else if (user.role === 'EMPLOYER') {
         navigate('/employer/dashboard')
       } else if (user.role === 'PLACEMENT_OFFICER') {
@@ -66,13 +76,13 @@ export default function Login({ title, subtitle }) {
       }
 
     } catch (err) {
-      console.error("FULL ERROR:", err)
+      console.error('LOGIN ERROR:', err)
 
       const msg =
         err.response?.data?.message ||
         err.response?.data ||
         err.message ||
-        "Login failed"
+        'Login failed'
 
       setError(msg)
       toast.error(msg)
