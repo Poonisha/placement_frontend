@@ -1,7 +1,11 @@
 import axios from 'axios'
 
+<<<<<<< HEAD
 // ✅ ONLY use env variable (NO localhost fallback)
 const baseURL = import.meta.env.VITE_API_BASE_URL
+=======
+const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://backend:5000/api'
+>>>>>>> ae7122d (Frontend fixed and ready for deployment)
 
 // (optional debug – you can remove later)
 console.log("API BASE:", baseURL)

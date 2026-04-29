@@ -71,13 +71,22 @@ export default function StudentJobsPage() {
   const filteredJobs = useMemo(() => filterJobsBySearch(jobs, search), [jobs, search])
 
   const handleApply = async (job) => {
-    const studentId = localStorage.getItem('userId')
+    const userId = Number(localStorage.getItem('userId') || 1)
     const jobId = job?.id ?? job?.jobId
-    if (!studentId || !jobId) return
+    if (!userId || !jobId) return
     if (appliedJobIds.has(jobId)) return
     setApplyingId(jobId)
     try {
-      await api.post('/api/applications/apply', { studentId, jobId })
+      await api.post(
+        'http://localhost:8080/api/applications/apply',
+        {
+          user: { id: userId },
+          job: { id: jobId },
+        },
+        {
+          headers: { 'Content-Type': 'application/json' },
+        },
+      )
       setAppliedJobIds((prev) => new Set(prev).add(jobId))
       alert('Applied successfully')
     } catch {
